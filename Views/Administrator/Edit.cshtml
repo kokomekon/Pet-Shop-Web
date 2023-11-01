@@ -1,0 +1,71 @@
+﻿@using PetShopWeb.Models;
+@model Animals
+@await Html.PartialAsync("~/Views/Shared/_Menu.cshtml", 3)
+
+<h3>Edit Animal</h3>
+<form asp-controller="Administrator" asp-action="SaveBackToCatalog" method="post" enctype="multipart/form-data">
+    @Html.AntiForgeryToken()
+
+    <div class="form-group">
+        <label asp-for="Name">Name</label>
+        <input asp-for="Name" class="form-control" required />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Age">Age</label>
+        <input asp-for="Age" class="form-control" required />
+        <span asp-validation-for="Age" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Description">Description</label>
+        <input asp-for="Description" class="form-control" required />
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+    <br />
+    <div class="form-group">
+        <label>Current Photo</label>
+        <img src="@Model.PictureName" alt="@Model.Name" class="animal-image" />
+          
+    </div>
+    <br />
+
+    <div class="form-group">
+        <label for="Photo">Select Photo from Specific Folder</label>
+        <input type="file" id="Photo" name="Photo" class="form-control" accept=".png, .jpeg, .jpg" onchange="displaySelectedPhoto()" />
+        <span asp-validation-for="PictureName" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label>Category Name</label>
+        <select asp-for="CategoryId" id="CategoryName" class="form-control">
+            <option value="">Select an existing category...</option>
+            @foreach (var category in ViewBag.Categories)
+            {
+                <option value="@category.CategoryId">@category.Name</option>
+            }
+        </select>
+        <span asp-validation-for="CategoryId" class="text-danger"></span> 
+    </div>
+
+    <input type="hidden" asp-for="AnimalId" />
+
+    <button type="submit" class="btn btn-primary">Save Changes</button>
+</form>
+
+<script>
+    function displaySelectedPhoto() {
+        var fileInput = document.getElementById("Photo"); 
+        var currentPhoto = document.getElementById("currentPhoto");
+
+        if (fileInput.files && fileInput.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                currentPhoto.src = e.target.result;
+            };
+
+            reader.readAsDataURL(fileInput.files[0]);
+        }
+    }
+</script>

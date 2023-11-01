@@ -1,0 +1,30 @@
+﻿@using PetShopWeb.Models;
+@model List<Animals>
+@await  Html.PartialAsync("~/Views/Shared/_Menu.cshtml",2)
+
+<div>
+    <p>The two most highly rated pets today are:</p>
+</div>
+<div>
+    <table class="styled-table">
+        <thead>
+            <tr>
+                <th>Image</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Comments</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var animal in Model.OrderByDescending(a => a.Comment.Count).Take(2))
+            {
+                <tr>
+                    <td><img src="@animal.PictureName" alt="@animal.Name" class="animal-image" /></td>
+                    <td>@animal.Name</td>
+                    <td>@animal.Description</td>
+                    <td>@animal.Comment.Count</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

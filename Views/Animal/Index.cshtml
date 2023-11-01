@@ -1,0 +1,48 @@
+﻿@model PetShopWeb.Models.Animals
+@await  Html.PartialAsync("~/Views/Shared/_Menu.cshtml",2)
+
+<div class="animal-details-container">
+    <div class="animal-details">
+        <h2>Animal Details</h2>
+        <table class="styled-table">
+            <tbody>
+                <tr>
+                    <td>Name</td>
+                    <td>@Model.Name</td>
+                </tr>
+                <tr>
+                    <td>Age</td>
+                    <td>@Model.Age</td>
+                </tr>
+                <tr>
+                    <td>Description</td>
+                    <td>@Model.Description</td>
+                </tr>
+                <tr>
+                    <td>Category Name</td>
+                    <td>@Model.CategoryId.ToString()</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="comments">
+        <h2>Comments</h2>
+        <ul>
+            @foreach (var comment in Model.Comment)
+            {
+                <li>@comment.CommentTxt</li>
+            }
+        </ul>
+
+
+        <form method="post" asp-controller="Animal" asp-action="AddComment">
+            <input type="hidden" name="animalId" value="@Model.AnimalId" />
+            <div class="form-group">
+                <label for="commentText">Add a Comment:</label>
+                <textarea id="commentText" name="commentText" rows="4" class="form-control"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+</div>

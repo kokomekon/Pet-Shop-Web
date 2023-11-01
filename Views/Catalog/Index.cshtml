@@ -1,0 +1,47 @@
+﻿@using PetShopWeb.Models;
+@model List<Animals>
+@await  Html.PartialAsync("~/Views/Shared/_Menu.cshtml",2)
+
+
+<form method="post" asp-controller="Catalog" asp-action="Filter">
+    <div class="form-group">
+        <label for="categoryId" class="form-label">Please select category:</label>
+        <select name="categoryId" id="categoryId" class="form-control">
+            <option value="">All</option>
+            <option value="1">Carnivores</option>
+            <option value="2">Reptiles</option>
+            <option value="3">Mammals</option>
+            <option value="4">Poultry</option>
+            <option value="5">Fish</option>
+            <option value="6">Insects</option>
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Filter</button>
+</form>
+
+<div>
+    <table class="styled-table">
+        <thead>
+            <tr>
+                <th>Image</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Comments</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var animal in Model)
+            {
+                <tr>
+                    <td><img src="@animal.PictureName" alt="@animal.Name" class="animal-image" /></td>
+                    <td>@animal.Name</td>
+                    <td>@animal.Description</td>
+                    <td>
+                        <a href="@Url.Action("Index", "Animal", new { animalId = animal.AnimalId })" class="Button">Details</a>
+                    </td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

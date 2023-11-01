@@ -1,0 +1,55 @@
+﻿@using PetShopWeb.Models;
+@model List<Animals>
+@await  Html.PartialAsync("~/Views/Shared/_Menu.cshtml",3)
+
+<form method="post" asp-controller="Administrator" asp-action="Filter">
+    <div class="form-group">
+        <label for="categoryId" class="form-label">Please select category:</label>
+        <select name="categoryId" id="categoryId" class="form-control" width = "300">
+            <option value="">All</option>
+            <option value="1">Carnivores</option>
+            <option value="2">Reptiles</option>
+            <option value="3">Mammals</option>
+            <option value="4">Poultry</option>
+            <option value="5">Fish</option>
+            <option value="6">Insects</option>
+        </select>
+        <button type="submit" class="btn btn-primary">Filter</button>
+    </div>
+    </form>
+<a href="/Administrator/AddAnimal" class="btn btn-primary float-right">Add New Animal</a>
+
+<div>
+    <table class="styled-table">
+        <thead>
+            <tr>
+                <th>Image</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var animal in Model)
+            {
+                <tr>
+                    <td><img src="@animal.PictureName" alt="@animal.Name" class="animal-image" /></td>
+                    <td>@animal.Name</td>
+                    <td>@animal.Description</td>
+                    <td>
+                        <form asp-controller="Administrator" asp-action="Edit" method="get" enctype="multipart/form-data">
+                            <input type="hidden" name="animalId" value="@animal.AnimalId" />
+                            <button type="submit" class="Button">Edit</button>
+                        </form>
+                    </td>
+
+
+                    <td>
+                        <a asp-controller="Administrator" asp-action="DeleteAnimal" asp-route-animalId="@animal.AnimalId" class="Button">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
